@@ -1,6 +1,6 @@
 # Dr. Adnan Saleem - Medical Portfolio Website
 
-A professional portfolio website built with **HTML ** and **CSS and JS** to showcase the medical journey, experience, achievements, and services of **Dr. Adnan Saleem**.
+A professional portfolio website built with **HTML** and **CSS and JS** to showcase the medical journey, experience, achievements, and services of **Dr. Adnan Saleem**.
 
 ---
 
