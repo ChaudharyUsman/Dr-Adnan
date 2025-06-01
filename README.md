@@ -33,3 +33,4 @@ Patients can book appointments online through this page:
 👉 [Book Now](https://calendar.app.google/CxcskMzqerKP2PWp7)
 
 ---
+![image](https://github.com/user-attachments/assets/eae45011-0049-4cfe-a209-c72816536b6d)
