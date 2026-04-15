@@ -42,6 +42,16 @@ body {
     padding-top: 94px;
 }
 
+html,
+body {
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
 /*---------------------------------------
   TYPOGRAPHY               
 -----------------------------------------*/
@@ -287,7 +297,7 @@ strong {
   bottom: 0;
   right: 0;
   padding: 1.5rem 2.5rem;
-  width: 50%;
+  width: min(50%, 620px);
 }
 
 .contact-phone {
@@ -555,11 +565,13 @@ strong {
 .timeline h3, 
 .timeline p {
   padding: 10px 30px;
+  overflow-wrap: anywhere;
 } 
 
 .timeline ul {
   margin: 0;
   padding: 14px 30px 20px;
+  overflow-wrap: anywhere;
 }
 
 .timeline li {
@@ -767,17 +779,18 @@ strong {
     display: block;
     position: absolute;
     top: 60px;
-    left: 33px;
+    left: 22px;
     width: 0;
     height: 90%;
-    z-index: 1;
-    transform: translateX(-50%);
+    z-index: 0;
+    transform: none;
   }
 
   .timeline-icons {
     position: absolute;
-    left: 0%;
+    left: 0;
     top: 60px;
+    z-index: 2;
   }
 
   .timeline-nodes:nth-child(odd) h3::after {
@@ -804,6 +817,7 @@ strong {
   .timeline-icons::before {
     width: 78px;
     height: 78px;
+    z-index: 1;
   }
 
   .timeline-icon {
@@ -811,6 +825,7 @@ strong {
     height: 48px;
     margin-top: 12px;
     font-size: 1.1rem;
+    z-index: 2;
   }
 }
 
@@ -819,18 +834,21 @@ strong {
     content: "";
     display: block;
     top: 60px;
-    left: 57px;
+    left: 18px;
     height: 87%;
+    z-index: 0;
   }
 
   .timeline-icons {
     position: absolute;
-    left: -10px;
+    left: 0;
+    z-index: 2;
   }
 
   .timeline-icons::before {
     width: 72px;
     height: 72px;
+    z-index: 1;
   }
 
   .timeline-icon {
@@ -838,6 +856,7 @@ strong {
     height: 44px;
     margin-top: 11px;
     font-size: 1rem;
+    z-index: 2;
   }
 }
 
@@ -1069,7 +1088,52 @@ strong {
   border: 1px solid var(--footer-border);
   border-radius: 14px;
   padding: 1rem 1.15rem;
+  height: 100%;
   backdrop-filter: blur(2px);
+  opacity: 0;
+  transform: translateY(18px);
+  animation: FooterPanelReveal 680ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  transition: transform 260ms ease, box-shadow 260ms ease, border-color 260ms ease;
+}
+
+.site-footer .row.g-4 > div:nth-child(2) .footer-panel {
+  animation-delay: 90ms;
+}
+
+.site-footer .row.g-4 > div:nth-child(3) .footer-panel {
+  animation-delay: 180ms;
+}
+
+.footer-panel:hover {
+  transform: translateY(-5px);
+  border-color: rgba(143, 196, 255, 0.65);
+  box-shadow: 0 14px 30px rgba(8, 23, 48, 0.35);
+}
+
+@media screen and (min-width: 768px) {
+  .site-footer .row.g-4 {
+    --bs-gutter-x: 0;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 1rem;
+    row-gap: 1rem;
+  }
+
+  .site-footer .row.g-4 > div:nth-child(1),
+  .site-footer .row.g-4 > div:nth-child(2),
+  .site-footer .row.g-4 > div:nth-child(3) {
+    flex: 1 1 0;
+    width: 0;
+    max-width: none;
+    margin: 0;
+    min-width: 0;
+  }
+
+  .site-footer .row.g-4 > .col-12 {
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
+  }
 }
 
 .footer-heading {
@@ -1131,6 +1195,25 @@ strong {
   display: inline-block;
   vertical-align: top;
   transition: all 0.3s;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: FooterIconReveal 420ms ease-out forwards;
+}
+
+.social-icon li:nth-child(2) {
+  animation-delay: 70ms;
+}
+
+.social-icon li:nth-child(3) {
+  animation-delay: 140ms;
+}
+
+.social-icon li:nth-child(4) {
+  animation-delay: 210ms;
+}
+
+.social-icon li:nth-child(5) {
+  animation-delay: 280ms;
 }
 
 .social-icon:hover li:not(:hover) {
@@ -1149,12 +1232,52 @@ strong {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(210, 224, 249, 0.25);
   color: #d8e5ff;
+  transition: transform 240ms ease, background-color 240ms ease, border-color 240ms ease, color 240ms ease;
 }
 
 .social-icon-link:hover {
   color: var(--white-color);
   background: rgba(36, 124, 255, 0.35);
   border-color: rgba(143, 196, 255, 0.75);
+  transform: translateY(-3px) scale(1.05);
+}
+
+@keyframes FooterPanelReveal {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes FooterIconReveal {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-panel,
+  .social-icon li {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .footer-panel,
+  .social-icon-link {
+    transition: none;
+  }
 }
 
 /*---------------------------------------
@@ -1200,6 +1323,13 @@ strong {
     padding-bottom: 5rem;
   }
 
+  p,
+  .timeline li,
+  .list-group-item {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
   .navbar {
     padding-top: 10px;
     padding-bottom: 10px;
@@ -1208,6 +1338,18 @@ strong {
   .navbar-nav .nav-link {
     padding-top: 5px;
     padding-bottom: 10px;
+  }
+
+  .navbar-collapse {
+    background: var(--white-color);
+    border-radius: 10px;
+    margin-top: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  }
+
+  .navbar-nav {
+    align-items: flex-start;
   }
 
   .hero .container {
@@ -1233,6 +1375,10 @@ strong {
     width: auto;
     margin-bottom: -100px;
     padding: 2rem;
+  }
+
+  .heroLinks {
+    gap: 0.8rem;
   }
 
   .featured-circle {
@@ -1275,6 +1421,15 @@ strong {
     height: 190px;
   }
 
+  .timeline h3,
+  .timeline p {
+    padding: 10px 18px;
+  }
+
+  .timeline ul {
+    padding: 12px 18px 16px;
+  }
+
   .achievement-card {
     padding: 1.35rem 1.2rem;
   }
@@ -1300,6 +1455,10 @@ strong {
     margin-top: 20px;
   }
 
+  .reviews-thumb {
+    padding: 22px;
+  }
+
   .reviews-carousel .owl-nav {
     position: relative;
     width: auto !important;
@@ -1315,6 +1474,47 @@ strong {
   .reviews-carousel .owl-nav .owl-next {
     right: 0;
     left: 0;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .section-padding {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+
+  h1 {
+    font-size: 32px;
+  }
+
+  h2 {
+    font-size: 28px;
+  }
+
+  .heroLinks {
+    flex-direction: column;
+    align-items: flex-start !important;
+  }
+
+  .heroLinks .custom-link {
+    margin-right: 0 !important;
+  }
+
+  .timeline .timeline-nodes > .col-9 {
+    width: calc(100% - 84px);
+  }
+
+  .timeline .timeline-nodes > .col-3 {
+    width: 84px;
+  }
+
+  .achievement-image {
+    height: 180px;
+  }
+
+  .reviews-text {
+    font-size: 15px;
+    line-height: 1.6;
   }
 }
 
@@ -1338,6 +1538,18 @@ strong {
 
   .contact-phone {
     font-size: 12px;
+  }
+
+  .galleryImage {
+    height: 220px;
+  }
+
+  .timeline::before {
+    left: 48px;
+  }
+
+  .timeline-icons {
+    left: -6px;
   }
 }
 
