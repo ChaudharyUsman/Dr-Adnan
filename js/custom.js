@@ -3,6 +3,50 @@
   
   "use strict";
 
+    // FOOTER YEAR (auto-updated)
+    function updateCurrentYear() {
+      var yearEl = document.getElementById('currentYear');
+      if (!yearEl) {
+        return;
+      }
+
+      yearEl.textContent = new Date().getFullYear();
+    }
+
+    updateCurrentYear();
+
+    // EXPERIENCE YEARS (auto-updated from start date)
+    function updateExperienceYears() {
+      var experienceEl = document.getElementById('experienceValue');
+      if (!experienceEl) {
+        return;
+      }
+
+      var startDateRaw = experienceEl.getAttribute('data-experience-start');
+      if (!startDateRaw) {
+        return;
+      }
+
+      var startDate = new Date(startDateRaw + 'T00:00:00');
+      if (Number.isNaN(startDate.getTime())) {
+        return;
+      }
+
+      var today = new Date();
+      var totalMonths = (today.getFullYear() - startDate.getFullYear()) * 12
+        + (today.getMonth() - startDate.getMonth());
+
+      // Don't count the current month until the start-day has passed.
+      if (today.getDate() < startDate.getDate()) {
+        totalMonths -= 1;
+      }
+
+      totalMonths = Math.max(totalMonths, 0);
+      experienceEl.textContent = (totalMonths / 12).toFixed(2);
+    }
+
+    updateExperienceYears();
+
     // NAVBAR
     $('.navbar-nav .nav-link').click(function(){
         $(".navbar-collapse").collapse('hide');
@@ -36,7 +80,7 @@
     //naem azam
     var myCarousel = document.querySelector('#myCarousel')
     var carousel = new bootstrap.Carousel(myCarousel, {
-      interval: 1500,
+      interval: 3000,
     })
 
     // REVIEWS NAVIGATION
